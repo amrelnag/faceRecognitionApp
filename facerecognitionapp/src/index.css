@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  font-family: "Brush Script MT", Courier, monospace;
+  background: linear-gradient(312deg, rgba(195,188,34,1) 11%, rgba(253,45,45,1) 100%);
+}
+
+button {
+  cursor: pointer;
+}
