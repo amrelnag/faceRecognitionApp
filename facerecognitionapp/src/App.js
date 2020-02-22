@@ -73,10 +73,29 @@ class App extends Component{
       input: '',
       box: {},
       route: 'signIn',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        entries: 0,
+        joined: '' 
+      }
     }
   }
-  
-  
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        entries: data.entries,
+        joined: data.joined 
+      }
+    })
+  }
   calculateFaceLocation = (data) => {
     console.log(data.outputs[0].data.regions[0].region_info.bounding_box);
     const boxDimen = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -92,7 +111,6 @@ class App extends Component{
       bottomRow: height - (boxDimen.bottom_row * height),
 
     }
-    console.log(width);
   }
 
   highlightFaces = (box) => {
@@ -117,12 +135,20 @@ class App extends Component{
   onRouteChange = (toRoute) => {
     this.setState({route: toRoute })
   }
+  wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+      end = new Date().getTime();
+   }
+ }
 
   checkRoute = (toRoute) => {
-    console.log('checkRoute');
+    console.log(toRoute);
+    //this.wait(5000);
     switch (toRoute) {
       case 'signIn':
-        return <SignInForm onRouteChange={this.onRouteChange}/>;
+        return <div><SignInForm onRouteChange={this.onRouteChange}/></div>;
       case 'home':
         return <div>
                 <Navigation onRouteChange={this.onRouteChange}/>
@@ -133,8 +159,8 @@ class App extends Component{
               </div>;
       case 'Register':
         return <div>
-                <RegisterationForm onRouteChange={this.onRouteChange}/>
-               </div>
+                <RegisterationForm loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+               </div>;
       default:
     }
   }
